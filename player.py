@@ -8,6 +8,7 @@ class Player(CircleShape):
         super().__init__(x, y, PLAYER_RADIUS)
         self.rotation = 0
         self.shot_cooldown_timer = 0
+        self.score = 0
     
     # in the Player class
     def triangle(self):
@@ -40,7 +41,8 @@ class Player(CircleShape):
         rotated_vector = unit_vector.rotate(self.rotation)
         shot.velocity = rotated_vector * PLAYER_SHOOT_SPEED
         
-
+    def score_bonus(self):
+        self.score += 1
 
     def update(self, dt):
         self.shot_cooldown_timer -= dt

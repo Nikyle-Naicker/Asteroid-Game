@@ -13,6 +13,7 @@ pygame.init()
 
 def main():
     dt = 0
+    my_font = pygame.font.SysFont(None, 64)
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
@@ -36,7 +37,10 @@ def main():
             if event.type == pygame.QUIT:
                 return
         screen.fill("black")
-        updatable.update(dt) 
+        updatable.update(dt)
+        score_string = str(controller.score)
+        text_surface = my_font.render(score_string, True, "white")
+        screen.blit(text_surface, (x, 50))
         for member in drawable:
             member.draw(screen)
         for asteroid in asteroids:
@@ -45,9 +49,12 @@ def main():
                     log_event("asteroid_shot")
                     shot.kill()
                     asteroid.split()
+                    controller.score_bonus()
+                    
 
             if controller.collides_with(asteroid):
                 log_event("player_hit")
+                print(controller.score)
                 print("Game over!")
                 sys.exit()
         for shot in shots:
